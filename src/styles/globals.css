@@ -3,6 +3,10 @@
 @import 'tailwindcss/utilities';
 
 
+.main {
+    height: 100vh;
+}
+
 @media (max-width: 768px) {
     /* 768px 이하일 때 모바일 스타일을 적용 */
     .main {
