@@ -163,9 +163,8 @@ export default function Home(props: HomeProps): JSX.Element {
         style={{ height: '90vh' }}
       >
         {stage < 8 ? (
-          <div></div>
-        ) : (
           <div>
+            {' '}
             <Talk
               stage={stage}
               myImoticonText={myImoticonText}
@@ -178,6 +177,8 @@ export default function Home(props: HomeProps): JSX.Element {
               setStage={setStage}
             ></Modal>
           </div>
+        ) : (
+          <div></div>
         )}
       </div>
       <div
