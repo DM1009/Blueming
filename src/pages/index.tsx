@@ -124,8 +124,8 @@ export default function Home(props: HomeProps): JSX.Element {
 
   return (
     <div
-      className='md:w-2/5 xl:w-1/5 w-full flex flex-col justify-center border-2 mx-auto rounded-2xl'
-      style={{ height: '90vh' }}
+      className='md:w-2/5 xl:w-1/5 w-full flex flex-col justify-center border-2 mx-auto rounded-2xl main'
+      style={{ height: '100vh', overflow: 'hidden' }}
     >
       <div
         className='flex justify-between bg-blue-500 rounded-t-xl'
@@ -160,11 +160,12 @@ export default function Home(props: HomeProps): JSX.Element {
       </div>
       <div
         className='bg-white justify-center text-center'
-        style={{ height: '90vh' }}
+        style={{
+          height: '90vh',
+        }}
       >
         {stage < 8 ? (
           <div>
-            {' '}
             <Talk
               stage={stage}
               myImoticonText={myImoticonText}
