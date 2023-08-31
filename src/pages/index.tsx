@@ -110,7 +110,7 @@ export default function Home(props: HomeProps): JSX.Element {
       setTimeout(() => {
         console.log(stage)
         setStage(7)
-      }, 11000)
+      }, 15000)
     }
     if (stage === 7) {
       const audio = new Audio('/assets/bgm/4.mp3')
@@ -229,6 +229,9 @@ export default function Home(props: HomeProps): JSX.Element {
       </div>
       {imoticon && (
         <div className='flex relative '>
+          <h1 className='mx-4 text-lg absolute top-2'>
+            이모티콘을 더블클릭 하세요!
+          </h1>
           <h1
             className='mx-4 text-4xl absolute bottom-10 cursor-pointer border-b-2 border-l-2 border-r-2'
             style={{ left: '-10px' }}
