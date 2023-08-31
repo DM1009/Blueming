@@ -66,7 +66,7 @@ export default function Home() {
         >
           <Link href='/main'>
             <span
-              className='text-2xl text-white font-bold cursor-pointer text-blue-300'
+              className='text-2xl font-bold cursor-pointer text-blue-300'
               style={{ whiteSpace: 'pre-line' }}
             >
               {`클릭하시면 메인으로 넘어갑니다`}
