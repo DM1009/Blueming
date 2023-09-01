@@ -70,10 +70,7 @@ export default function End(): JSX.Element {
   }, [isMusic])
 
   return (
-    <div
-      className='md:w-2/5 xl:w-1/5 w-full flex flex-col justify-center mx-auto rounded-2xl'
-      style={{ height: '100vh', overflow: 'hidden' }}
-    >
+    <div className='md:w-2/5 xl:w-1/5 w-full flex flex-col justify-center mx-auto rounded-2xl main'>
       {isLoading ? (
         <></>
       ) : (
@@ -94,8 +91,8 @@ export default function End(): JSX.Element {
             transition={{ duration: 1 }}
           >
             <Image
-              className='md:w-2/5 xl:w-1/5 w-full flex flex-col justify-center border-2 mx-auto rounded-2xl absolute top-0 opacity-50'
-              style={{ height: '100vh', overflow: 'hidden', zIndex: 1 }}
+              className='md:w-2/5 xl:w-1/5 w-full flex flex-col justify-center border-2 mx-auto rounded-2xl absolute top-0 opacity-50 main'
+              style={{ overflow: 'hidden', zIndex: 1 }}
               alt='bg'
               src={'/assets/img/bg.png'}
               width={1000}
