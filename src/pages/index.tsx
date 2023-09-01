@@ -6,7 +6,7 @@ import Link from 'next/link'
 export default function Home() {
   const [musicPlay, setMusicPlay] = useState(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
-
+  const [isLoading, setIsLoading] = useState(false)
   const handleMusic = () => {
     if (audioRef.current) {
       const audio = audioRef.current
@@ -33,6 +33,11 @@ export default function Home() {
     }
   }
 
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(true)
+    }, 1000)
+  }, [])
   return (
     <div
       className='md:w-2/5 xl:w-1/5 w-full flex flex-col justify-center border-2 mx-auto rounded-2xl'
