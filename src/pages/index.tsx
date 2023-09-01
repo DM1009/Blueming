@@ -22,6 +22,17 @@ export default function Home() {
     }
   }
 
+  const handleMainClick = () => {
+    if (musicPlay) {
+      // 클릭 시 음악이 재생 중인 경우, 음악을 멈춥니다.
+      if (audioRef.current) {
+        audioRef.current.pause()
+        audioRef.current.load()
+      }
+      setMusicPlay(false)
+    }
+  }
+
   return (
     <div
       className='md:w-2/5 xl:w-1/5 w-full flex flex-col justify-center border-2 mx-auto rounded-2xl'
@@ -76,6 +87,7 @@ export default function Home() {
             <span
               className='text-2xl font-bold cursor-pointer text-blue-300'
               style={{ whiteSpace: 'pre-line' }}
+              onClick={handleMainClick}
             >
               {`클릭하시면 메인으로 넘어갑니다`}
             </span>
