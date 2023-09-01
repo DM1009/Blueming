@@ -9,7 +9,7 @@ interface EndProps {
 
 export default function End({ stage }: EndProps): JSX.Element {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
+
   const handleMusic = () => {
     const canvas = canvasRef.current
     if (!canvas) return
@@ -54,7 +54,7 @@ export default function End({ stage }: EndProps): JSX.Element {
     })
   }
   useEffect(() => {
-    if (stage === 12) {
+    if (stage === 11) {
       handleMusic()
     }
   }, [stage])

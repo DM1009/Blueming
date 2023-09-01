@@ -133,16 +133,16 @@ export default function Main(props: HomeProps): JSX.Element {
       }, 5000)
     }
     if (stage === 11) {
-      setTimeout(() => {
-        console.log(stage)
-        setStage(12)
-      }, 2000)
+      //   setTimeout(() => {
+      //     console.log(stage)
+      //     setStage(12)
+      //   }, 2000)
     }
   }, [stage])
 
   return (
     <div>
-      {stage === 12 ? (
+      {stage === 11 ? (
         <motion.div animate={{ opacity: [0, 1] }} transition={{ duration: 1 }}>
           <End stage={stage} />
         </motion.div>
@@ -152,7 +152,7 @@ export default function Main(props: HomeProps): JSX.Element {
           transition={{ duration: stage === 11 ? 1 : 0 }}
         >
           <div
-            className='md:w-2/5 xl:w-1/5 w-full flex flex-col justify-center border-2 mx-auto rounded-2xl main'
+            className='md:w-2/5 xl:w-1/5 w-full flex flex-col justify-center border-2 mx-auto rounded-2xl main border-blue-300'
             style={{ overflow: 'hidden' }}
           >
             <div
