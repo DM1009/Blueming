@@ -136,6 +136,7 @@ export default function Main(props: HomeProps): JSX.Element {
     }
     if (stage === 11) {
       const audio = new Audio('/assets/bgm/5.mp3')
+      audio.play()
       const audioContext = new (window.AudioContext || window.AudioContext)()
       const analyser = audioContext.createAnalyser()
       const source = audioContext.createMediaElementSource(audio)
@@ -150,11 +151,6 @@ export default function Main(props: HomeProps): JSX.Element {
 
       audio.crossOrigin = 'anonymous'
 
-      audio.addEventListener('canplay', () => {
-        audio.play()
-        drawSpectrum()
-      })
-
       const drawSpectrum = () => {
         analyser.getByteFrequencyData(dataArray)
         const canvas = canvasRef.current
@@ -164,6 +160,7 @@ export default function Main(props: HomeProps): JSX.Element {
           const ctx = canvas.getContext('2d')
           const canvasWidth = canvas.width
           const canvasHeight = canvas.height
+          drawSpectrum()
           if (ctx === null) {
             console.error('캔버스 컨텍스트를 가져올 수 없습니다.')
             return
