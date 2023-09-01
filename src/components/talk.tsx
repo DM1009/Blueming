@@ -46,7 +46,7 @@ const Talk: React.FC<TalkProps> = ({ stage, myImoticonText, setStage }) => {
                   times: [0, 0.25, 0.5, 0.75],
                 }}
               >
-                <h1 className='font-extrabold'>네가 보고싶어</h1>
+                <h1 className='font-extrabold text-blue-500'>네가 보고싶어</h1>
               </motion.div>
             </div>
           ) : (

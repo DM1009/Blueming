@@ -137,7 +137,7 @@ export default function Main(props: HomeProps): JSX.Element {
   return (
     <motion.div
       animate={{ opacity: stage === 8 ? [1, 0] : 1 }}
-      transition={{ delay: stage === 8 ? 3 : 0, duration: 1 }}
+      transition={{ delay: stage === 8 ? 5 : 0, duration: 1 }}
     >
       {stage === 9 ? (
         <></>
