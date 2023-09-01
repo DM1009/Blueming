@@ -178,7 +178,7 @@ export default function Main(props: HomeProps): JSX.Element {
             const barHeight = (dataArray[i] / 255) * canvasHeight
             const hue = (i / bufferLength) * 360
 
-            ctx.fillStyle = `hsl(${hue}, 100%, 50%)`
+            ctx.fillStyle = `rgba(100, 10, ${hue + 100},0.3)`
             ctx.fillRect(x, canvasHeight - barHeight, barWidth, barHeight)
 
             x += barWidth + 1
@@ -226,12 +226,18 @@ export default function Main(props: HomeProps): JSX.Element {
                     src={'/assets/img/cover.jpg'}
                     width={200}
                     height={200}
-                    style={{ zIndex: 2 }}
+                    style={{ zIndex: 3 }}
                   />
                 </div>
               </motion.div>
-              <div>
-                <canvas ref={canvasRef} width={800} height={400}></canvas>
+              <div className='flex justify-center z-1'>
+                <canvas
+                  className=' w-2/3'
+                  ref={canvasRef}
+                  width={300}
+                  height={70}
+                  style={{ zIndex: 1 }}
+                ></canvas>
               </div>
               <div className='flex justify-center text-center'>
                 <motion.div
