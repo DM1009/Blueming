@@ -3,7 +3,11 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 
-export default function End(): JSX.Element {
+interface EndProps {
+  stage: number
+}
+
+export default function End({ stage }: EndProps): JSX.Element {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const handleMusic = () => {
@@ -50,76 +54,68 @@ export default function End(): JSX.Element {
     })
   }
   useEffect(() => {
-    setTimeout(() => {
+    if (stage === 12) {
       handleMusic()
-      setIsLoading(false)
-    }, 2000)
-  }, [])
+    }
+  }, [stage])
 
   return (
     <div className='md:w-2/5 xl:w-1/5 w-full flex flex-col justify-center mx-auto rounded-2xl main'>
-      {isLoading ? (
-        <></>
-      ) : (
-        <div>
+      <div>
+        <motion.div
+          className='flex justify-center mb-4'
+          animate={{ opacity: [0, 1] }}
+          transition={{ delay: 2, duration: 1 }}
+        >
+          <Link href={'/'}>
+            <h1 className='mt-4 text-3xl cursor-pointer text-with-stroke my-custom-font2'>
+              감사합니다
+            </h1>
+          </Link>
+        </motion.div>
+        <motion.div animate={{ opacity: [0, 1] }} transition={{ duration: 1 }}>
+          <Image
+            className='md:w-2/5 xl:w-1/5 w-full flex flex-col justify-center border-2 mx-auto rounded-2xl absolute top-0 opacity-50 main'
+            style={{ overflow: 'hidden', zIndex: 1 }}
+            alt='bg'
+            src={'/assets/img/bg.png'}
+            width={1000}
+            height={1000}
+          />
+          <div className='flex justify-center z-30'>
+            <Image
+              className='rounded-xl relative'
+              alt='cover'
+              src={'/assets/img/cover.jpg'}
+              width={200}
+              height={200}
+              style={{ zIndex: 2 }}
+            />
+          </div>
+
+          <div className='flex justify-center items-center'>
+            <canvas
+              style={{ zIndex: 1 }}
+              ref={canvasRef}
+              width={300}
+              height={50}
+            ></canvas>
+          </div>
+        </motion.div>
+        <div className='flex justify-center text-center'>
           <motion.div
-            className='flex justify-center mb-4'
             animate={{ opacity: [0, 1] }}
             transition={{ delay: 2, duration: 1 }}
+            style={{ zIndex: 4 }}
           >
             <Link href={'/main'}>
-              <h1 className='mt-4 text-3xl cursor-pointer text-with-stroke my-custom-font2'>
-                감사합니다
+              <h1 className='mt-4 text-3xl cursor-pointer text-with-stroke my-custom-font1'>
+                다시 하기
               </h1>
             </Link>
           </motion.div>
-          <motion.div
-            animate={{ opacity: [0, 1] }}
-            transition={{ duration: 1 }}
-          >
-            <Image
-              className='md:w-2/5 xl:w-1/5 w-full flex flex-col justify-center border-2 mx-auto rounded-2xl absolute top-0 opacity-50 main'
-              style={{ overflow: 'hidden', zIndex: 1 }}
-              alt='bg'
-              src={'/assets/img/bg.png'}
-              width={1000}
-              height={1000}
-            />
-            <div className='flex justify-center z-30'>
-              <Image
-                className='rounded-xl relative'
-                alt='cover'
-                src={'/assets/img/cover.jpg'}
-                width={200}
-                height={200}
-                style={{ zIndex: 2 }}
-              />
-            </div>
-
-            <div className='flex justify-center items-center'>
-              <canvas
-                style={{ zIndex: 1 }}
-                ref={canvasRef}
-                width={300}
-                height={50}
-              ></canvas>
-            </div>
-          </motion.div>
-          <div className='flex justify-center text-center'>
-            <motion.div
-              animate={{ opacity: [0, 1] }}
-              transition={{ delay: 2, duration: 1 }}
-              style={{ zIndex: 4 }}
-            >
-              <Link href={'/main'}>
-                <h1 className='mt-4 text-3xl cursor-pointer text-with-stroke my-custom-font1'>
-                  다시 하기
-                </h1>
-              </Link>
-            </motion.div>
-          </div>
         </div>
-      )}
+      </div>
     </div>
   )
 }

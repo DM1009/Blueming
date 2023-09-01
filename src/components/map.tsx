@@ -59,7 +59,7 @@ export default function Map() {
 
   return (
     <div>
-      <div id='map' className='w-full main'></div>
+      <div id='map' className='w-full map'></div>
     </div>
   )
 }

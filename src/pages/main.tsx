@@ -8,12 +8,14 @@ import Talk from '@/components/talk'
 
 import Modal from '@/components/modal'
 import Map from '@/components/map'
+import End from '@/components/end'
 
 interface HomeProps {}
 
 export default function Main(props: HomeProps): JSX.Element {
   const [chatText, setChatText] = useState<string>('')
   const [stage, setStage] = useState<number>(0)
+  const [isMap, setIsMap] = useState(false)
   const [imoticon, setImoticon] = useState<boolean>(false)
   const [myImoticonText, setMyImoticonText] = useState<string>(``)
   const myImoticonRef1 = useRef<HTMLHeadingElement>(null)
@@ -112,118 +114,55 @@ export default function Main(props: HomeProps): JSX.Element {
       setTimeout(() => {
         console.log(stage)
         setStage(7)
-      }, 11000)
+      }, 12000)
     }
 
-    if (stage === 7) {
+    if (stage === 8) {
       const audio = new Audio('/assets/bgm/4.mp3')
       audio.play()
       setTimeout(() => {
         console.log(stage)
-        setStage(8)
-      }, 4000)
-    }
-    if (stage === 8) {
-      setTimeout(() => {
-        console.log(stage)
         setStage(9)
-      }, 7000)
+      }, 2000)
     }
     if (stage === 9) {
-      window.location.href = '/end'
+      setIsMap(true)
+      setTimeout(() => {
+        console.log(stage)
+        setStage(10)
+      }, 5000)
+    }
+    if (stage === 11) {
+      setTimeout(() => {
+        console.log(stage)
+        setStage(12)
+      }, 2000)
     }
   }, [stage])
 
   return (
-    <motion.div
-      animate={{ opacity: stage === 8 ? [1, 0] : 1 }}
-      transition={{ delay: stage === 8 ? 5 : 0, duration: 1 }}
-    >
-      {stage === 9 ? (
-        <></>
+    <div>
+      {stage === 12 ? (
+        <motion.div animate={{ opacity: [0, 1] }} transition={{ duration: 1 }}>
+          <End stage={stage} />
+        </motion.div>
       ) : (
-        <div
-          className='md:w-2/5 xl:w-1/5 w-full flex flex-col justify-center border-2 mx-auto rounded-2xl main'
-          style={{ overflow: 'hidden' }}
+        <motion.div
+          animate={{ opacity: stage === 11 ? [1, 0] : 1 }}
+          transition={{ duration: stage === 11 ? 1 : 0 }}
         >
           <div
-            className='flex justify-between bg-blue-500 rounded-t-xl'
-            style={{ height: '40px' }}
+            className='md:w-2/5 xl:w-1/5 w-full flex flex-col justify-center border-2 mx-auto rounded-2xl main'
+            style={{ overflow: 'hidden' }}
           >
-            <button className='text-xl ml-4 font-extrabold text-white'>
-              <FaArrowLeft />
-            </button>
-            <h1 className='text-xl my-auto text-white font-bold'>S</h1>
-            {stage === 4 ? (
-              <motion.div
-                animate={{
-                  y: [10, 10],
-                  scale: [1, 2],
-                }}
-                transition={{
-                  duration: 1,
-                  ease: 'backInOut',
-                  repeat: Infinity,
-                  repeatType: 'reverse',
-                }}
-              >
-                <button className='text-xl mr-4 text-white' onClick={openModal}>
-                  <RiCalendarTodoFill />
-                </button>
-              </motion.div>
-            ) : (
-              <button className='text-xl mr-4 text-white'>
-                <RiCalendarTodoFill />
-              </button>
-            )}
-          </div>
-          <div className='bg-white justify-center text-center talk'>
-            {stage < 8 ? (
-              <div>
-                <Talk
-                  stage={stage}
-                  myImoticonText={myImoticonText}
-                  setStage={setStage}
-                />
-                <Modal
-                  isOpen={isModalOpen}
-                  closeModal={closeModal}
-                  stage={stage}
-                  setStage={setStage}
-                ></Modal>
-              </div>
-            ) : (
-              <div></div>
-            )}
-            {stage === 8 ? (
-              <>
+            <div
+              className='flex justify-between bg-blue-500 rounded-t-xl'
+              style={{ height: '40px' }}
+            >
+              {stage === 10 ? (
                 <motion.div
                   animate={{
-                    x: [300, 0],
-                  }}
-                  transition={{
-                    duration: 1,
-                    ease: 'backInOut',
-                  }}
-                >
-                  <Map />
-                </motion.div>
-              </>
-            ) : (
-              <></>
-            )}
-          </div>
-          <div
-            className='flex flex-row justify-between my-auto border-2 rounded-b-xl border-blue-500'
-            style={{ height: '45px' }}
-          >
-            {stage === 2 ? (
-              <button
-                className='text-blue-700 text-2xl ml-4'
-                onClick={handleImoticon}
-              >
-                <motion.div
-                  animate={{
+                    y: [10, 10],
                     scale: [1, 2],
                   }}
                   transition={{
@@ -233,83 +172,188 @@ export default function Main(props: HomeProps): JSX.Element {
                     repeatType: 'reverse',
                   }}
                 >
-                  <FaRegSmile />
+                  <button
+                    className='text-xl ml-4 font-extrabold text-white'
+                    onClick={() => {
+                      setStage(11)
+                    }}
+                  >
+                    <FaArrowLeft />
+                  </button>
                 </motion.div>
-              </button>
-            ) : (
-              <button className='text-blue-700 text-2xl ml-4 '>
-                <FaRegSmile />
-              </button>
-            )}
+              ) : (
+                <button className='text-xl ml-4 font-extrabold text-white'>
+                  <FaArrowLeft />
+                </button>
+              )}
 
-            <input
-              type='text'
-              className='my-auto text-xl mx-4 px-2 md:px-4 bg-blue-100 rounded-md'
-              value={chatText}
-              placeholder={placeholderText}
-              onChange={(e) => {
-                setChatText(e.target.value)
-              }}
-              onKeyUp={handleKeyPress}
-            />
-            <button
-              className='text-blue-700 text-2xl mr-4'
-              onClick={handleSendText}
-            >
-              <AiOutlineSend />
-            </button>
-          </div>
-          {imoticon && (
-            <div className='flex relative '>
-              <h1 className='mx-4 text-lg absolute bottom-16 left-10'>
-                원하는 이모티콘을 더블클릭 하세요!
-              </h1>
-              <h1
-                className='mx-4 text-4xl absolute bottom-14 cursor-pointer border-b-2 border-l-2 border-r-2'
-                style={{ left: '-10px' }}
-                ref={myImoticonRef1}
-                onClick={() => {
-                  if (myImoticonRef1.current) {
-                    setMyImoticonText(myImoticonRef1.current.textContent || '')
-                    handlePlaceholderText()
-                  }
-                }}
-                onDoubleClick={handleImoticonText}
-              >
-                {`😘`}
-              </h1>
-              <h1
-                className='mx-4 text-4xl absolute bottom-24 cursor-pointer border-l-2 border-r-2'
-                style={{ left: '-10px' }}
-                ref={myImoticonRef2}
-                onClick={() => {
-                  if (myImoticonRef2.current) {
-                    setMyImoticonText(myImoticonRef2.current.textContent || '')
-                    handlePlaceholderText()
-                  }
-                }}
-                onDoubleClick={handleImoticonText}
-              >
-                {`🤔`}
-              </h1>
-              <h1
-                className='mx-4 text-4xl absolute cursor-pointer border-t-2 border-l-2 border-r-2'
-                style={{ bottom: '135px', left: '-10px' }}
-                ref={myImoticonRef3}
-                onClick={() => {
-                  if (myImoticonRef3.current) {
-                    setMyImoticonText(myImoticonRef3.current.textContent || '')
-                    handlePlaceholderText()
-                  }
-                }}
-                onDoubleClick={handleImoticonText}
-              >
-                {`😐`}
-              </h1>
+              <h1 className='text-xl my-auto text-white font-bold'>S</h1>
+              {stage === 4 ? (
+                <motion.div
+                  animate={{
+                    y: [10, 10],
+                    scale: [1, 2],
+                  }}
+                  transition={{
+                    duration: 1,
+                    ease: 'backInOut',
+                    repeat: Infinity,
+                    repeatType: 'reverse',
+                  }}
+                >
+                  <button
+                    className='text-xl mr-4 text-white'
+                    onClick={openModal}
+                  >
+                    <RiCalendarTodoFill />
+                  </button>
+                </motion.div>
+              ) : (
+                <button className='text-xl mr-4 text-white'>
+                  <RiCalendarTodoFill />
+                </button>
+              )}
             </div>
-          )}
-        </div>
+            <div className='bg-white justify-center text-center talk'>
+              {stage < 9 ? (
+                <div>
+                  <Talk
+                    stage={stage}
+                    myImoticonText={myImoticonText}
+                    setStage={setStage}
+                  />
+                  <Modal
+                    isOpen={isModalOpen}
+                    closeModal={closeModal}
+                    stage={stage}
+                    setStage={setStage}
+                  ></Modal>
+                </div>
+              ) : (
+                <div></div>
+              )}
+              {isMap ? (
+                <>
+                  <motion.div
+                    animate={{
+                      x: [300, 0],
+                    }}
+                    transition={{
+                      duration: 1,
+                      ease: 'backInOut',
+                    }}
+                  >
+                    <Map />
+                  </motion.div>
+                </>
+              ) : (
+                <></>
+              )}
+            </div>
+            <div
+              className='flex flex-row justify-between my-auto border-2 rounded-b-xl border-blue-500'
+              style={{ height: '45px' }}
+            >
+              {stage === 2 ? (
+                <button
+                  className='text-blue-700 text-2xl ml-4'
+                  onClick={handleImoticon}
+                >
+                  <motion.div
+                    animate={{
+                      scale: [1, 2],
+                    }}
+                    transition={{
+                      duration: 1,
+                      ease: 'backInOut',
+                      repeat: Infinity,
+                      repeatType: 'reverse',
+                    }}
+                  >
+                    <FaRegSmile />
+                  </motion.div>
+                </button>
+              ) : (
+                <button className='text-blue-700 text-2xl ml-4 '>
+                  <FaRegSmile />
+                </button>
+              )}
+
+              <input
+                type='text'
+                className='my-auto text-xl mx-4 px-2 md:px-4 bg-blue-100 rounded-md'
+                value={chatText}
+                placeholder={placeholderText}
+                onChange={(e) => {
+                  setChatText(e.target.value)
+                }}
+                onKeyUp={handleKeyPress}
+              />
+              <button
+                className='text-blue-700 text-2xl mr-4'
+                onClick={handleSendText}
+              >
+                <AiOutlineSend />
+              </button>
+            </div>
+            {imoticon && (
+              <div className='flex relative '>
+                <h1 className='mx-4 text-lg absolute bottom-16 left-10'>
+                  원하는 이모티콘을 더블클릭 하세요!
+                </h1>
+                <h1
+                  className='mx-4 text-4xl absolute bottom-14 cursor-pointer border-b-2 border-l-2 border-r-2'
+                  style={{ left: '-10px' }}
+                  ref={myImoticonRef1}
+                  onClick={() => {
+                    if (myImoticonRef1.current) {
+                      setMyImoticonText(
+                        myImoticonRef1.current.textContent || ''
+                      )
+                      handlePlaceholderText()
+                    }
+                  }}
+                  onDoubleClick={handleImoticonText}
+                >
+                  {`😘`}
+                </h1>
+                <h1
+                  className='mx-4 text-4xl absolute bottom-24 cursor-pointer border-l-2 border-r-2'
+                  style={{ left: '-10px' }}
+                  ref={myImoticonRef2}
+                  onClick={() => {
+                    if (myImoticonRef2.current) {
+                      setMyImoticonText(
+                        myImoticonRef2.current.textContent || ''
+                      )
+                      handlePlaceholderText()
+                    }
+                  }}
+                  onDoubleClick={handleImoticonText}
+                >
+                  {`🤔`}
+                </h1>
+                <h1
+                  className='mx-4 text-4xl absolute cursor-pointer border-t-2 border-l-2 border-r-2'
+                  style={{ bottom: '135px', left: '-10px' }}
+                  ref={myImoticonRef3}
+                  onClick={() => {
+                    if (myImoticonRef3.current) {
+                      setMyImoticonText(
+                        myImoticonRef3.current.textContent || ''
+                      )
+                      handlePlaceholderText()
+                    }
+                  }}
+                  onDoubleClick={handleImoticonText}
+                >
+                  {`😐`}
+                </h1>
+              </div>
+            )}
+          </div>
+        </motion.div>
       )}
-    </motion.div>
+    </div>
   )
 }

@@ -11,7 +11,7 @@ const Talk: React.FC<TalkProps> = ({ stage, myImoticonText, setStage }) => {
   return (
     <div>
       <motion.div
-        animate={{ x: stage === 7 ? [0, -500] : 0, opacity: 1 }}
+        animate={{ x: stage === 8 ? [0, -500] : 0, opacity: 1 }}
         transition={{ delay: 1, duration: 1, ease: 'backInOut' }}
       >
         <div>
@@ -161,7 +161,7 @@ const Talk: React.FC<TalkProps> = ({ stage, myImoticonText, setStage }) => {
                   }}
                   transition={{
                     duration: 1,
-                    delay: 10,
+                    delay: 9,
                     ease: 'backInOut',
                   }}
                 >
@@ -172,6 +172,73 @@ const Talk: React.FC<TalkProps> = ({ stage, myImoticonText, setStage }) => {
                   </h1>
                 </motion.div>
               </div>
+
+              {stage === 6 ? (
+                <div className='flex justify-end mr-4 mt-4'>
+                  <motion.div
+                    animate={{
+                      y: [10, 0],
+                      opacity: [0, 1],
+                    }}
+                    transition={{
+                      delay: 11,
+                      duration: 1,
+                      ease: 'backInOut',
+                    }}
+                  >
+                    <h1
+                      className={`text-white bg-blue-500 text-center w-12 h-8 rounded-2xl flex justify-center items-center `}
+                    >
+                      나?
+                    </h1>
+                  </motion.div>
+                </div>
+              ) : (
+                <></>
+              )}
+
+              {stage === 7 ? (
+                <div className='flex justify-end mr-4 mt-4'>
+                  <motion.div
+                    animate={{
+                      y: [0, 0],
+                      opacity: [1, 1],
+                      scale: [1, 1.2],
+                    }}
+                    transition={{
+                      delay: 0,
+                      duration: 1,
+                      ease: 'backInOut',
+                      repeat: Infinity,
+                      repeatType: 'reverse',
+                    }}
+                  >
+                    <h1
+                      className={`text-white bg-blue-500 text-center w-12 h-8 rounded-2xl flex justify-center items-center cursor-pointer`}
+                      onClick={() => {
+                        if (stage === 7) {
+                          setStage(8)
+                        }
+                      }}
+                    >
+                      나?
+                    </h1>
+                  </motion.div>
+                </div>
+              ) : (
+                <></>
+              )}
+              {stage === 8 ? (
+                <div className='flex justify-end mr-4 mt-4'>
+                  <h1
+                    className={`text-white bg-blue-500 text-center w-12 h-8 rounded-2xl flex justify-center items-center `}
+                  >
+                    나?
+                  </h1>
+                </div>
+              ) : (
+                <></>
+              )}
             </>
           ) : (
             <></>
