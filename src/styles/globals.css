@@ -4,7 +4,11 @@
 
 
 .main {
-    height: 90vh;
+    height: 100vh;
+}
+
+.talk {
+    height: 80vh;
 }
 
 @font-face {
@@ -37,7 +41,9 @@
 @media (max-width: 768px) {
     /* 768px 이하일 때 모바일 스타일을 적용 */
     .main {
-      height: 70vh;
+      height: 90vh;
     }
-    
+    .talk {
+        height: 80vh;
+    }
   }

@@ -6,68 +6,55 @@ import Link from 'next/link'
 export default function End(): JSX.Element {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const [isLoading, setIsLoading] = useState(true)
-  const [isMusic, setIsMusic] = useState(false)
-
-  useEffect(() => {
-    setTimeout(() => {
-      setIsMusic(true)
-      setIsLoading(false)
-    }, 2000)
-
+  const handleMusic = () => {
     const canvas = canvasRef.current
     if (!canvas) return
 
     const context = canvas.getContext('2d')
     if (!context) return
 
-    if (isMusic) {
-      const audio = new Audio('/assets/bgm/5.mp3')
-      audio.crossOrigin = 'anonymous'
+    const audio = new Audio('/assets/bgm/5.mp3')
+    audio.crossOrigin = 'anonymous'
 
-      const audioContext = new (window.AudioContext || window.AudioContext)()
-      const analyser = audioContext.createAnalyser()
-      const source = audioContext.createMediaElementSource(audio)
+    const audioContext = new (window.AudioContext || window.AudioContext)()
+    const analyser = audioContext.createAnalyser()
+    const source = audioContext.createMediaElementSource(audio)
 
-      source.connect(analyser)
-      analyser.connect(audioContext.destination)
+    source.connect(analyser)
+    analyser.connect(audioContext.destination)
 
-      analyser.fftSize = 256
-      const bufferLength = analyser.frequencyBinCount
-      const dataArray = new Uint8Array(bufferLength)
+    analyser.fftSize = 256
+    const bufferLength = analyser.frequencyBinCount
+    const dataArray = new Uint8Array(bufferLength)
 
-      const drawSpectrum = () => {
-        analyser.getByteFrequencyData(dataArray)
-        context.clearRect(0, 0, canvas.width, canvas.height)
+    const drawSpectrum = () => {
+      analyser.getByteFrequencyData(dataArray)
+      context.clearRect(0, 0, canvas.width, canvas.height)
 
-        const barWidth = (canvas.width / bufferLength) * 2.5
-        let x = 0
+      const barWidth = (canvas.width / bufferLength) * 2.5
+      let x = 0
 
-        dataArray.forEach((value) => {
-          const barHeight = (value / 256) * canvas.height
-          context.fillStyle = `rgba(0,100,${value + 100},0.5)`
-          context.fillRect(x, canvas.height - barHeight, barWidth, barHeight)
-          x += barWidth + 1
-        })
+      dataArray.forEach((value) => {
+        const barHeight = (value / 256) * canvas.height
+        context.fillStyle = `rgba(0,100,${value + 100},0.5)`
+        context.fillRect(x, canvas.height - barHeight, barWidth, barHeight)
+        x += barWidth + 1
+      })
 
-        requestAnimationFrame(drawSpectrum)
-      }
-
-      // 사용자 상호 작용 후에 오디오를 재생
-      const playAudio = () => {
-        audio.play().then(() => {
-          drawSpectrum()
-        })
-      }
-
-      // 사용자 상호 작용 이벤트(예: 버튼 클릭)를 통해 오디오 재생 시작
-      window.addEventListener('click', playAudio)
-
-      // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
-      return () => {
-        window.removeEventListener('click', playAudio)
-      }
+      requestAnimationFrame(drawSpectrum)
     }
-  }, [isMusic])
+
+    audio.addEventListener('canplay', () => {
+      audio.play()
+      drawSpectrum()
+    })
+  }
+  useEffect(() => {
+    setTimeout(() => {
+      handleMusic()
+      setIsLoading(false)
+    }, 2000)
+  }, [])
 
   return (
     <div className='md:w-2/5 xl:w-1/5 w-full flex flex-col justify-center mx-auto rounded-2xl main'>
