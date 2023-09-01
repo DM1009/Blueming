@@ -16,7 +16,10 @@ interface HomeProps {}
 export default function Main(props: HomeProps): JSX.Element {
   const [chatText, setChatText] = useState<string>('')
   const [stage, setStage] = useState<number>(0)
-  const [isMap, setIsMap] = useState(false)
+  const [isMap, setIsMap] = useState<boolean>(false)
+  const [isDebug, setIsDebug] = useState<number>(0)
+  const [isOpenDebug, setIsOpenDebug] = useState<boolean>(false)
+  const [isDebugValue, setIsDebugValue] = useState<number>(0)
   const [imoticon, setImoticon] = useState<boolean>(false)
   const [myImoticonText, setMyImoticonText] = useState<string>(``)
   const myImoticonRef1 = useRef<HTMLHeadingElement>(null)
@@ -59,6 +62,15 @@ export default function Main(props: HomeProps): JSX.Element {
     }
   }
 
+  const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      setStage(isDebugValue)
+    }
+  }
+  const handleDebug = () => {
+    setIsDebug((prev) => prev + 1)
+  }
+
   const handlePlaceholderText = () => {
     setMyImoticonText((prevText) => {
       if (prevText === `😘`) {
@@ -94,6 +106,9 @@ export default function Main(props: HomeProps): JSX.Element {
   }
 
   useEffect(() => {
+    if (isDebug > 5) {
+      setIsOpenDebug(true)
+    }
     if (stage === 1) {
       const audio = new Audio('/assets/bgm/1.mp3')
       audio.play()
@@ -136,7 +151,7 @@ export default function Main(props: HomeProps): JSX.Element {
     }
     if (stage === 11) {
       const audio = new Audio('/assets/bgm/5.mp3')
-      audio.play()
+
       const audioContext = new (window.AudioContext || window.AudioContext)()
       const analyser = audioContext.createAnalyser()
       const source = audioContext.createMediaElementSource(audio)
@@ -148,9 +163,6 @@ export default function Main(props: HomeProps): JSX.Element {
 
       const bufferLength = analyser.frequencyBinCount
       const dataArray = new Uint8Array(bufferLength)
-
-      audio.crossOrigin = 'anonymous'
-
       const drawSpectrum = () => {
         analyser.getByteFrequencyData(dataArray)
         const canvas = canvasRef.current
@@ -160,7 +172,7 @@ export default function Main(props: HomeProps): JSX.Element {
           const ctx = canvas.getContext('2d')
           const canvasWidth = canvas.width
           const canvasHeight = canvas.height
-          drawSpectrum()
+
           if (ctx === null) {
             console.error('캔버스 컨텍스트를 가져올 수 없습니다.')
             return
@@ -184,8 +196,11 @@ export default function Main(props: HomeProps): JSX.Element {
           requestAnimationFrame(drawSpectrum)
         }
       }
+      audio.crossOrigin = 'anonymous'
+      audio.play()
+      drawSpectrum()
     }
-  }, [stage])
+  }, [isDebug, stage])
 
   return (
     <div>
@@ -293,7 +308,24 @@ export default function Main(props: HomeProps): JSX.Element {
                 </button>
               )}
 
-              <h1 className='text-xl my-auto text-white font-bold'>S</h1>
+              <h1
+                className='text-xl my-auto text-white font-bold'
+                onClick={handleDebug}
+              >
+                S
+              </h1>
+              {isOpenDebug && (
+                <input
+                  type='number'
+                  className='my-auto text-xl mx-4 px-2 md:px-4 bg-blue-200 rounded-md border-2'
+                  value={isDebugValue}
+                  onChange={(e) => {
+                    const newValue = parseInt(e.target.value, 10)
+                    setIsDebugValue(newValue)
+                  }}
+                  onKeyUp={handleEnter}
+                />
+              )}
               {stage === 4 ? (
                 <motion.div
                   animate={{
