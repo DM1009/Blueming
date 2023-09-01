@@ -7,7 +7,6 @@ import { motion } from 'framer-motion'
 import Talk from '@/components/talk'
 import Modal from '@/components/modal'
 import Map from '@/components/map'
-import path from 'path'
 
 interface HomeProps {}
 
@@ -158,7 +157,7 @@ export default function Main(props: HomeProps): JSX.Element {
               <motion.div
                 animate={{
                   y: [10, 10],
-                  scale: [1, 1.5],
+                  scale: [1, 2],
                 }}
                 transition={{
                   duration: 1,
@@ -229,7 +228,7 @@ export default function Main(props: HomeProps): JSX.Element {
               >
                 <motion.div
                   animate={{
-                    scale: [1, 1.5],
+                    scale: [1, 2],
                   }}
                   transition={{
                     duration: 1,

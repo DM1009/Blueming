@@ -9,53 +9,53 @@ export default function End(): JSX.Element {
 
   useEffect(() => {
     setTimeout(() => {
-      setIsLoading(false) // 로딩이 완료되었음을 표시
-    }, 2000)
+      setIsLoading(false)
+    }, 1000)
 
     const canvas = canvasRef.current
     if (!canvas) return
 
     const context = canvas.getContext('2d')
-    if (!context) return // 컨텍스트가 없을 경우 처리
+    if (!context) return
 
-    const audio = new Audio('/assets/bgm/5.mp3')
+    if (isLoading === false) {
+      const audio = new Audio('/assets/bgm/5.mp3')
+      audio.crossOrigin = 'anonymous'
 
-    // CORS 문제 해결을 위해 'anonymous'로 설정
-    audio.crossOrigin = 'anonymous'
+      const audioContext = new (window.AudioContext || window.AudioContext)()
+      const analyser = audioContext.createAnalyser()
+      const source = audioContext.createMediaElementSource(audio)
 
-    const audioContext = new (window.AudioContext || window.AudioContext)()
-    const analyser = audioContext.createAnalyser()
-    const source = audioContext.createMediaElementSource(audio)
+      source.connect(analyser)
+      analyser.connect(audioContext.destination)
 
-    source.connect(analyser)
-    analyser.connect(audioContext.destination)
+      analyser.fftSize = 256
+      const bufferLength = analyser.frequencyBinCount
+      const dataArray = new Uint8Array(bufferLength)
 
-    analyser.fftSize = 256
-    const bufferLength = analyser.frequencyBinCount
-    const dataArray = new Uint8Array(bufferLength)
+      const drawSpectrum = () => {
+        analyser.getByteFrequencyData(dataArray)
+        context.clearRect(0, 0, canvas.width, canvas.height)
 
-    const drawSpectrum = () => {
-      analyser.getByteFrequencyData(dataArray)
-      context.clearRect(0, 0, canvas.width, canvas.height)
+        const barWidth = (canvas.width / bufferLength) * 2.5
+        let x = 0
 
-      const barWidth = (canvas.width / bufferLength) * 2.5
-      let x = 0
+        dataArray.forEach((value) => {
+          const barHeight = (value / 256) * canvas.height
+          context.fillStyle = `rgba(0,100,${value + 100},0.5)`
+          context.fillRect(x, canvas.height - barHeight, barWidth, barHeight)
+          x += barWidth + 1
+        })
 
-      dataArray.forEach((value) => {
-        const barHeight = (value / 256) * canvas.height
-        context.fillStyle = `rgba(0,100,${value + 100},0.5)`
-        context.fillRect(x, canvas.height - barHeight, barWidth, barHeight)
-        x += barWidth + 1
+        requestAnimationFrame(drawSpectrum)
+      }
+
+      audio.addEventListener('canplay', () => {
+        audio.play()
+
+        drawSpectrum()
       })
-
-      requestAnimationFrame(drawSpectrum)
     }
-
-    audio.addEventListener('canplay', () => {
-      audio.play()
-    })
-
-    drawSpectrum()
   }, [isLoading])
 
   return (
@@ -105,7 +105,7 @@ export default function End(): JSX.Element {
               <canvas
                 style={{ zIndex: 1 }}
                 ref={canvasRef}
-                width={200}
+                width={300}
                 height={50}
               ></canvas>
             </div>
