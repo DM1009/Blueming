@@ -25,6 +25,7 @@ export default function Main(props: HomeProps): JSX.Element {
   const [placeholderText, setPlaceholderText] =
     useState<string>(`뭐해? 라고 입력해보세요!`)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const canvasRef = useRef<HTMLCanvasElement | null>(null)
 
   const handleSendText = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
@@ -84,52 +85,6 @@ export default function Main(props: HomeProps): JSX.Element {
     console.log(imoticon)
   }
 
-  const canvasRef = useRef<HTMLCanvasElement | null>(null)
-
-  const handleMusic = () => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-
-    const context = canvas.getContext('2d')
-    if (!context) return
-
-    const audio = new Audio('/assets/bgm/5.mp3')
-    audio.crossOrigin = 'anonymous'
-
-    const audioContext = new (window.AudioContext || window.AudioContext)()
-    const analyser = audioContext.createAnalyser()
-    const source = audioContext.createMediaElementSource(audio)
-
-    source.connect(analyser)
-    analyser.connect(audioContext.destination)
-
-    analyser.fftSize = 256
-    const bufferLength = analyser.frequencyBinCount
-    const dataArray = new Uint8Array(bufferLength)
-
-    const drawSpectrum = () => {
-      analyser.getByteFrequencyData(dataArray)
-      context.clearRect(0, 0, canvas.width, canvas.height)
-
-      const barWidth = (canvas.width / bufferLength) * 2.5
-      let x = 0
-
-      dataArray.forEach((value) => {
-        const barHeight = (value / 256) * canvas.height
-        context.fillStyle = `rgba(0,100,${value + 100},0.5)`
-        context.fillRect(x, canvas.height - barHeight, barWidth, barHeight)
-        x += barWidth + 1
-      })
-
-      requestAnimationFrame(drawSpectrum)
-    }
-
-    audio.addEventListener('canplay', () => {
-      audio.play()
-      drawSpectrum()
-    })
-  }
-
   const openModal = () => {
     setIsModalOpen(true)
   }
@@ -180,7 +135,58 @@ export default function Main(props: HomeProps): JSX.Element {
       }, 5000)
     }
     if (stage === 11) {
-      handleMusic()
+      const audio = new Audio('/assets/bgm/5.mp3')
+      const audioContext = new (window.AudioContext || window.AudioContext)()
+      const analyser = audioContext.createAnalyser()
+      const source = audioContext.createMediaElementSource(audio)
+
+      source.connect(analyser)
+      analyser.connect(audioContext.destination)
+
+      analyser.fftSize = 256
+
+      const bufferLength = analyser.frequencyBinCount
+      const dataArray = new Uint8Array(bufferLength)
+
+      audio.crossOrigin = 'anonymous'
+
+      audio.addEventListener('canplay', () => {
+        audio.play()
+        drawSpectrum()
+      })
+
+      const drawSpectrum = () => {
+        analyser.getByteFrequencyData(dataArray)
+        const canvas = canvasRef.current
+
+        if (canvas) {
+          // canvas가 렌더링된 후에만 작업을 수행합니다.
+          const ctx = canvas.getContext('2d')
+          const canvasWidth = canvas.width
+          const canvasHeight = canvas.height
+          if (ctx === null) {
+            console.error('캔버스 컨텍스트를 가져올 수 없습니다.')
+            return
+          }
+
+          ctx.clearRect(0, 0, canvasWidth, canvasHeight)
+
+          const barWidth = (canvasWidth / bufferLength) * 2.5
+          let x = 0
+
+          for (let i = 0; i < bufferLength; i++) {
+            const barHeight = (dataArray[i] / 255) * canvasHeight
+            const hue = (i / bufferLength) * 360
+
+            ctx.fillStyle = `hsl(${hue}, 100%, 50%)`
+            ctx.fillRect(x, canvasHeight - barHeight, barWidth, barHeight)
+
+            x += barWidth + 1
+          }
+
+          requestAnimationFrame(drawSpectrum)
+        }
+      }
     }
   }, [stage])
 
@@ -223,23 +229,17 @@ export default function Main(props: HomeProps): JSX.Element {
                     style={{ zIndex: 2 }}
                   />
                 </div>
-
-                <div className='flex justify-center items-center'>
-                  <canvas
-                    style={{ zIndex: 1 }}
-                    ref={canvasRef}
-                    width={300}
-                    height={50}
-                  ></canvas>
-                </div>
               </motion.div>
+              <div>
+                <canvas ref={canvasRef} width={800} height={400}></canvas>
+              </div>
               <div className='flex justify-center text-center'>
                 <motion.div
                   animate={{ opacity: [0, 1] }}
                   transition={{ delay: 2, duration: 1 }}
                   style={{ zIndex: 4 }}
                 >
-                  <Link href={'/main'}>
+                  <Link href={'/'}>
                     <h1 className='mt-4 text-3xl cursor-pointer text-with-stroke my-custom-font1'>
                       다시 하기
                     </h1>
