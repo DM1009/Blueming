@@ -79,7 +79,7 @@ export default function Home() {
           className=' flex justify-center mt-4'
           animate={{ opacity: [0, 1] }}
           transition={{
-            delay: 7,
+            delay: 4,
             duration: 1,
           }}
         >

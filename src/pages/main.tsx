@@ -98,7 +98,7 @@ export default function Main(props: HomeProps): JSX.Element {
         console.log(stage)
       }, 8500)
     }
-    if (stage === 2) {
+    if (stage === 3) {
       const audio = new Audio('/assets/bgm/2.mp3')
       audio.play()
       setTimeout(() => {
@@ -177,12 +177,7 @@ export default function Main(props: HomeProps): JSX.Element {
               </button>
             )}
           </div>
-          <div
-            className='bg-white justify-center text-center'
-            style={{
-              height: '90vh',
-            }}
-          >
+          <div className='bg-white justify-center text-center main'>
             {stage < 8 ? (
               <div>
                 <Talk

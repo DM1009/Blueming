@@ -6,12 +6,13 @@ import Link from 'next/link'
 export default function End(): JSX.Element {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const [isLoading, setIsLoading] = useState(true)
-  const [isMusic, setIsMusic] = useState(0)
+  const [isMusic, setIsMusic] = useState(false)
+
   useEffect(() => {
     setTimeout(() => {
-      setIsMusic(1)
+      setIsMusic(true)
       setIsLoading(false)
-    }, 1000)
+    }, 2000)
 
     const canvas = canvasRef.current
     if (!canvas) return
@@ -19,7 +20,7 @@ export default function End(): JSX.Element {
     const context = canvas.getContext('2d')
     if (!context) return
 
-    if (isMusic === 1) {
+    if (isMusic) {
       const audio = new Audio('/assets/bgm/5.mp3')
       audio.crossOrigin = 'anonymous'
 
@@ -51,10 +52,20 @@ export default function End(): JSX.Element {
         requestAnimationFrame(drawSpectrum)
       }
 
-      audio.addEventListener('canplay', () => {
-        audio.play()
-        drawSpectrum()
-      })
+      // 사용자 상호 작용 후에 오디오를 재생
+      const playAudio = () => {
+        audio.play().then(() => {
+          drawSpectrum()
+        })
+      }
+
+      // 사용자 상호 작용 이벤트(예: 버튼 클릭)를 통해 오디오 재생 시작
+      window.addEventListener('click', playAudio)
+
+      // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
+      return () => {
+        window.removeEventListener('click', playAudio)
+      }
     }
   }, [isMusic])
 
