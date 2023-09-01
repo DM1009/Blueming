@@ -5,6 +5,7 @@ import { RiCalendarTodoFill } from 'react-icons/ri'
 import { FaArrowLeft } from 'react-icons/fa'
 import { motion } from 'framer-motion'
 import Talk from '@/components/talk'
+
 import Modal from '@/components/modal'
 import Map from '@/components/map'
 
