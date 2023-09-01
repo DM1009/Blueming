@@ -6,9 +6,10 @@ import Link from 'next/link'
 export default function End(): JSX.Element {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const [isLoading, setIsLoading] = useState(true)
-
+  const [isMusic, setIsMusic] = useState(0)
   useEffect(() => {
     setTimeout(() => {
+      setIsMusic(1)
       setIsLoading(false)
     }, 1000)
 
@@ -18,7 +19,7 @@ export default function End(): JSX.Element {
     const context = canvas.getContext('2d')
     if (!context) return
 
-    if (isLoading === false) {
+    if (isMusic === 1) {
       const audio = new Audio('/assets/bgm/5.mp3')
       audio.crossOrigin = 'anonymous'
 
@@ -52,11 +53,10 @@ export default function End(): JSX.Element {
 
       audio.addEventListener('canplay', () => {
         audio.play()
-
         drawSpectrum()
       })
     }
-  }, [isLoading])
+  }, [isMusic])
 
   return (
     <div
@@ -110,13 +110,11 @@ export default function End(): JSX.Element {
               ></canvas>
             </div>
           </motion.div>
-          <div
-            className='flex justify-center text-center'
-            style={{ zIndex: 3 }}
-          >
+          <div className='flex justify-center text-center'>
             <motion.div
               animate={{ opacity: [0, 1] }}
               transition={{ delay: 2, duration: 1 }}
+              style={{ zIndex: 4 }}
             >
               <Link href={'/main'}>
                 <h1 className='mt-4 text-3xl cursor-pointer text-with-stroke my-custom-font1'>
