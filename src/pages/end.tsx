@@ -20,6 +20,7 @@ export default function End(): JSX.Element {
 
     const audio = new Audio('/assets/bgm/5.mp3')
 
+    // CORS 문제 해결을 위해 'anonymous'로 설정
     audio.crossOrigin = 'anonymous'
 
     const audioContext = new (window.AudioContext || window.AudioContext)()
@@ -55,7 +56,7 @@ export default function End(): JSX.Element {
     })
 
     drawSpectrum()
-  }, [])
+  }, [isLoading])
 
   return (
     <div

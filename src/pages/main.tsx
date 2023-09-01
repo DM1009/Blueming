@@ -127,7 +127,7 @@ export default function Main(props: HomeProps): JSX.Element {
       setTimeout(() => {
         console.log(stage)
         setStage(9)
-      }, 5000)
+      }, 7000)
     }
     if (stage === 9) {
       window.location.href = '/end'
@@ -249,7 +249,7 @@ export default function Main(props: HomeProps): JSX.Element {
 
             <input
               type='text'
-              className='my-auto text-xl mx-4 px-4 bg-blue-100 rounded-md'
+              className='my-auto text-xl mx-4 px-2 md:px-4 bg-blue-100 rounded-md'
               value={chatText}
               placeholder={placeholderText}
               onChange={(e) => {
