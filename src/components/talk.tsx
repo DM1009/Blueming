@@ -11,8 +11,8 @@ const Talk: React.FC<TalkProps> = ({ stage, myImoticonText, setStage }) => {
   return (
     <div>
       <motion.div
-        animate={{ opacity: stage === 7 ? [1, 0] : 1 }}
-        transition={{ delay: 1, duration: 1 }}
+        animate={{ x: stage === 7 ? [0, -500] : 0, opacity: 1 }}
+        transition={{ delay: 1, duration: 1, ease: 'backInOut' }}
       >
         <div>
           {stage >= 1 ? (
@@ -127,7 +127,7 @@ const Talk: React.FC<TalkProps> = ({ stage, myImoticonText, setStage }) => {
                   }}
                 >
                   <h1
-                    className={`text-blue-500 bg-white border-2 ml-4 mt-4 text-center w-24 h-8 rounded-2xl flex justify-center items-center `}
+                    className={`text-blue-500 bg-white border-2 ml-4 text-center w-24 h-8 rounded-2xl flex justify-center items-center `}
                   >
                     자나?
                   </h1>
