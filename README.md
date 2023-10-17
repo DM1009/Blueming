@@ -6,7 +6,7 @@
 
 TODO 만들기와, 현재 자신의 위치를 볼 수 있습니다.
 
-![](../header.png)
+<img src="./header.png" alt="예시 이미지" width="200" height="400">
 
 ## 설치 방법
 

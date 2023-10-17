@@ -28,6 +28,14 @@
     font-style: normal;
 }
 
+@font-face {
+  font-family: 'NEXON Lv2 Gothic';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv2 Gothic.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+}
+
+
 .my-custom-font1 {
     font-family: 'PyeongChangPeace-Bold', sans-serif; /* 폰트 패밀리 이름 사용 */
   }
@@ -39,6 +47,19 @@
 .text-with-stroke {
     -webkit-text-stroke: 1.5px #000; /* 테두리 두께와 색상 설정 */
     color: transparent; /* 글자를 투명하게 만듭니다. */
+  }
+
+  @media (max-width: 1024px) {
+    /* 768px 이하일 때 모바일 스타일을 적용 */
+    .main {
+      height: 100vh;
+    }
+    .talk {
+        height: 80vh;
+    }
+    .map {
+        height: 78vh;
+    }
   }
 
 @media (max-width: 768px) {

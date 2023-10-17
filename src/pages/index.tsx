@@ -42,7 +42,7 @@ export default function Home() {
     <>
       {isLoading ? (
         <div
-          className='md:w-2/5 xl:w-1/5 w-full flex flex-col justify-center border-2 mx-auto rounded-2xl'
+          className='md:w-2/5 xl:w-1/5 w-full flex flex-col justify-center border-2 mx-auto rounded-2xl font-index'
           style={{ height: '100vh', overflow: 'hidden' }}
         >
           <div

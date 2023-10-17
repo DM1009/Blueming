@@ -106,7 +106,7 @@ export default function Main(props: HomeProps): JSX.Element {
   }
 
   useEffect(() => {
-    if (isDebug > 5) {
+    if (isDebug > 4) {
       setIsOpenDebug(true)
     }
     if (stage === 1) {
@@ -203,7 +203,7 @@ export default function Main(props: HomeProps): JSX.Element {
   }, [isDebug, stage])
 
   return (
-    <div>
+    <div className='font-main'>
       {stage === 11 ? (
         <motion.div animate={{ opacity: [0, 1] }} transition={{ duration: 1 }}>
           <div className='md:w-2/5 xl:w-1/5 w-full flex flex-col justify-center mx-auto rounded-2xl main'>
@@ -224,7 +224,7 @@ export default function Main(props: HomeProps): JSX.Element {
                 transition={{ duration: 1 }}
               >
                 <Image
-                  className='md:w-2/5 xl:w-1/5 w-full flex flex-col justify-center border-2 mx-auto rounded-2xl absolute top-0 opacity-50 main'
+                  className='md:w-2/5 lg:w-1/5 w-full flex flex-col justify-center border-2 mx-auto rounded-2xl absolute top-0 opacity-50 main'
                   style={{ overflow: 'hidden', zIndex: 1 }}
                   alt='bg'
                   src={'/assets/img/bg.png'}
@@ -273,7 +273,7 @@ export default function Main(props: HomeProps): JSX.Element {
           transition={{ duration: stage === 11 ? 1 : 0 }}
         >
           <div
-            className='md:w-2/5 xl:w-1/5 w-full flex flex-col justify-center border-2 mx-auto rounded-2xl main border-blue-300'
+            className='md:w-3/5 xl:w-1/5 w-full flex flex-col justify-center border-2 mx-auto rounded-2xl main border-blue-300'
             style={{ overflow: 'hidden' }}
           >
             <div
@@ -489,6 +489,12 @@ export default function Main(props: HomeProps): JSX.Element {
                 </h1>
               </div>
             )}
+          </div>
+          <div className='flex flex-col text-center absolute top-24 right-64 text-2xl font-main'>
+            <h1>S를 5번 누르면 디버그 모드에 진입합니다</h1>
+            <h1 className='mt-4'>4 입력시 ToDo List를</h1>
+            <h1 className='mt-4'>8 입력시 카카오맵API를</h1>
+            <h1 className='mt-4'>바로 확인해보실 수 있습니다</h1>
           </div>
         </motion.div>
       )}

@@ -10,7 +10,7 @@ export default function Map() {
   useEffect(() => {
     const mapScript = document.createElement('script')
     mapScript.async = true
-    mapScript.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=자바 스크립트 키 적으세요!&autoload=false`
+    mapScript.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=62d4491f75cb223bfe5a91626c890790&autoload=false`
 
     document.head.appendChild(mapScript)
 
